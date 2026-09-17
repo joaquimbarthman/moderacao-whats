@@ -69,9 +69,10 @@ GRUPO_ADM=Nome exato do grupo ADM
 GRUPO_PRINCIPAL_ID=123456789@g.us
 GRUPO_ADM_ID=987654321@g.us
 NUMEROS_AUTORIZADOS=5518999999999,5511888888888
+QR_TOKEN=crie-uma-senha-longa-e-aleatoria
 ```
 
-5. Inicie o deploy e abra **Logs**. No primeiro início, escaneie o QR Code em **WhatsApp → Aparelhos conectados → Conectar aparelho**.
+5. Inicie o deploy. No primeiro início, abra `https://SEU-SERVICO.onrender.com/qr?token=SEU_QR_TOKEN` e escaneie a imagem em **WhatsApp → Aparelhos conectados → Conectar aparelho**. A página deixa de exibir o QR depois da autenticação.
 
 O Blueprint configura automaticamente:
 

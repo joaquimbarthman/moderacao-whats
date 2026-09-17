@@ -31,6 +31,7 @@ let antiSpam;
 let logger;
 let moderation;
 let whatsappConnected = false;
+let latestQr = null;
 const processed = new Map();
 
 function messageId(message) {
@@ -212,10 +213,15 @@ async function processMessage(message) {
 }
 
 client.on('qr', (qr) => {
+  latestQr = qr;
   console.log('[INFO] Escaneie o QR Code em WhatsApp > Aparelhos conectados > Conectar aparelho.');
-  qrcode.generate(qr, { small: true });
+  if (process.env.RENDER) {
+    console.log('[INFO] No Render, abra /qr?token=SEU_QR_TOKEN no endereço do serviço.');
+  } else {
+    qrcode.generate(qr, { small: true });
+  }
 });
-client.on('authenticated', () => console.log('[INFO] Autenticação concluída.'));
+client.on('authenticated', () => { latestQr = null; console.log('[INFO] Autenticação concluída.'); });
 client.on('auth_failure', (error) => console.error('[ERROR] Falha de autenticação:', error));
 client.on('disconnected', (reason) => { whatsappConnected = false; enabled = false; console.error('[ERROR] WhatsApp desconectado:', reason); });
 client.on('ready', async () => {
@@ -239,7 +245,8 @@ process.on('unhandledRejection', (error) => console.error('[ERROR] Promise rejei
 process.on('uncaughtException', (error) => console.error('[ERROR] Exceção não tratada:', error));
 
 startHealthServer({
-  getStatus: () => ({ ready: whatsappConnected && enabled, connected: whatsappConnected, enabled })
+  getStatus: () => ({ ready: whatsappConnected && enabled, connected: whatsappConnected, enabled }),
+  getQr: () => latestQr
 });
 
 client.initialize().catch((error) => console.error('[ERROR] Não foi possível iniciar o cliente:', error));

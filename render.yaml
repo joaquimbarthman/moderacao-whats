@@ -26,6 +26,8 @@ services:
         sync: false
       - key: NUMEROS_AUTORIZADOS
         sync: false
+      - key: QR_TOKEN
+        sync: false
     disk:
       name: whatsapp-storage
       mountPath: /opt/render/project/src/storage
