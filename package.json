@@ -1,0 +1,19 @@
+{
+  "name": "whatsapp-moderador",
+  "version": "1.0.0",
+  "description": "Bot modular de moderação para um grupo do WhatsApp",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test --test-isolation=none",
+    "check": "node scripts/check-syntax.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "github:cripperzprodigy/whatsapp-web.js#51914e6"
+  }
+}

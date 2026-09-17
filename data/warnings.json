@@ -1,0 +1,24 @@
+{
+  "264828186841143@lid": {
+    "userId": "264828186841143@lid",
+    "warnings": 1,
+    "motivos": [
+      {
+        "motivo": "Link não permitido",
+        "data": "2026-09-16T18:26:13.174Z"
+      }
+    ],
+    "ultimaAdvertencia": "2026-09-16T18:26:13.174Z"
+  },
+  "275746178252897@lid": {
+    "userId": "275746178252897@lid",
+    "warnings": 1,
+    "motivos": [
+      {
+        "motivo": "Link não permitido",
+        "data": "2026-09-16T22:59:27.275Z"
+      }
+    ],
+    "ultimaAdvertencia": "2026-09-16T22:59:27.275Z"
+  }
+}
