@@ -19,7 +19,17 @@ const { startHealthServer } = require('./services/healthServer');
 
 const client = new Client({
   authStrategy: new LocalAuth({ dataPath: authDirectory }),
-  puppeteer: { headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }
+  authTimeoutMs: 120000,
+  qrMaxRetries: 10,
+  puppeteer: {
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu'
+    ]
+  }
 });
 
 let mainChat = null;
@@ -223,6 +233,10 @@ client.on('qr', (qr) => {
 });
 client.on('authenticated', () => { latestQr = null; console.log('[INFO] Autenticação concluída.'); });
 client.on('auth_failure', (error) => console.error('[ERROR] Falha de autenticação:', error));
+client.on('loading_screen', (percent, message) => {
+  console.log(`[INFO] Sincronizando WhatsApp: ${percent}%${message ? ` - ${message}` : ''}`);
+});
+client.on('change_state', (state) => console.log(`[INFO] Estado do WhatsApp: ${state}`));
 client.on('disconnected', (reason) => { whatsappConnected = false; enabled = false; console.error('[ERROR] WhatsApp desconectado:', reason); });
 client.on('ready', async () => {
   whatsappConnected = true;

@@ -37,7 +37,7 @@ function startHealthServer({ getStatus, getQr, qrToken = process.env.QR_TOKEN, p
       try {
         const image = await QRCode.toDataURL(qr, { width: 420, margin: 2, errorCorrectionLevel: 'M' });
         response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
-        response.end(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Conectar WhatsApp</title><style>body{font-family:system-ui;text-align:center;background:#f4f4f4;padding:24px}main{background:white;max-width:520px;margin:auto;padding:24px;border-radius:16px}img{width:min(100%,420px)}</style></head><body><main><h1>Conectar WhatsApp</h1><p>WhatsApp → Aparelhos conectados → Conectar aparelho</p><img src="${image}" alt="QR Code"><p>Atualize a página se o QR expirar.</p></main></body></html>`);
+        response.end(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="refresh" content="12"><title>Conectar WhatsApp</title><style>body{font-family:system-ui;text-align:center;background:#f4f4f4;padding:24px}main{background:white;max-width:520px;margin:auto;padding:24px;border-radius:16px}img{width:min(100%,420px)}</style></head><body><main><h1>Conectar WhatsApp</h1><p>WhatsApp → Aparelhos conectados → Conectar aparelho</p><img src="${image}" alt="QR Code"><p>Esta página atualiza o QR automaticamente a cada 12 segundos.</p></main></body></html>`);
       } catch (error) {
         console.error('[ERROR] Falha ao gerar imagem do QR:', error.message);
         response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
