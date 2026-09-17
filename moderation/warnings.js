@@ -1,10 +1,10 @@
 'use strict';
 
-const path = require('node:path');
 const JsonStore = require('../utils/jsonStore');
+const { dataFile } = require('../utils/storage');
 
 class WarningStore {
-  constructor(file = path.join(__dirname, '..', 'data', 'warnings.json')) {
+  constructor(file = dataFile('warnings.json')) {
     this.store = new JsonStore(file, {});
   }
   async init() { await this.store.load(); return this; }

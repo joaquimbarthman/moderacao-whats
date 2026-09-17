@@ -10,10 +10,10 @@
     "check": "node scripts/check-syntax.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20 <25"
   },
   "dependencies": {
     "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "github:cripperzprodigy/whatsapp-web.js#51914e6"
+    "whatsapp-web.js": "https://github.com/cripperzprodigy/whatsapp-web.js/archive/51914e67240b9c5fb63ef376ec94f1a10068bc75.tar.gz"
   }
 }

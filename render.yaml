@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: whatsapp-moderador
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: 20.20.0
+      - key: AUTH_PATH
+        value: /opt/render/project/src/storage/.wwebjs_auth
+      - key: DATA_PATH
+        value: /opt/render/project/src/storage/data
+      - key: GRUPO_PRINCIPAL
+        sync: false
+      - key: GRUPO_ADM
+        sync: false
+      - key: GRUPO_PRINCIPAL_ID
+        sync: false
+      - key: GRUPO_ADM_ID
+        sync: false
+      - key: NUMEROS_AUTORIZADOS
+        sync: false
+    disk:
+      name: whatsapp-storage
+      mountPath: /opt/render/project/src/storage
+      sizeGB: 1

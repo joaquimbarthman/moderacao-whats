@@ -22,3 +22,12 @@ module.exports = {
     limpezaIntervalo: 60000
   }
 };
+
+// Variáveis de ambiente têm prioridade, facilitando o deploy sem expor dados no Git.
+if (process.env.GRUPO_PRINCIPAL) module.exports.grupoPrincipal = process.env.GRUPO_PRINCIPAL;
+if (process.env.GRUPO_ADM) module.exports.grupoAdm = process.env.GRUPO_ADM;
+if (process.env.GRUPO_PRINCIPAL_ID) module.exports.grupoPrincipalId = process.env.GRUPO_PRINCIPAL_ID;
+if (process.env.GRUPO_ADM_ID) module.exports.grupoAdmId = process.env.GRUPO_ADM_ID;
+if (process.env.NUMEROS_AUTORIZADOS) {
+  module.exports.numerosAutorizados = process.env.NUMEROS_AUTORIZADOS.split(',').map((value) => value.trim()).filter(Boolean);
+}

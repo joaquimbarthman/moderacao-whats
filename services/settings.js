@@ -1,10 +1,10 @@
 'use strict';
 
-const path = require('node:path');
 const JsonStore = require('../utils/jsonStore');
+const { dataFile } = require('../utils/storage');
 
 class Settings {
-  constructor(config, file = path.join(__dirname, '..', 'data', 'settings.json')) {
+  constructor(config, file = dataFile('settings.json')) {
     this.store = new JsonStore(file, { antiLink: config.antiLink, antiSpam: config.antiSpam });
   }
   async init() { await this.store.load(); return this; }

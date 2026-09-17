@@ -53,3 +53,44 @@ Os comandos administrativos são validados pelos IDs e atributos de participante
 - Checagem de sintaxe: `npm run check`
 
 Os arquivos JSON usam escrita temporária seguida de renomeação. O anti-spam mantém apenas estado temporário em memória e faz limpeza periódica. Testes automatizados nunca conectam ao WhatsApp nem removem pessoas.
+
+## Deploy no Render sem Docker
+
+O arquivo `render.yaml` cria um **Web Service** Node com um disco persistente de 1 GB. Esse recurso requer um serviço pago no Render. O disco preserva a sessão do WhatsApp, advertências e configurações entre reinícios.
+
+1. Envie o projeto para um repositório privado no GitHub. Não envie `.wwebjs_auth/`.
+2. No Render, escolha **New → Blueprint** e conecte o repositório.
+3. Confirme a criação do serviço `whatsapp-moderador`.
+4. Preencha as variáveis solicitadas pelo Blueprint:
+
+```text
+GRUPO_PRINCIPAL=Nome exato do grupo principal
+GRUPO_ADM=Nome exato do grupo ADM
+GRUPO_PRINCIPAL_ID=123456789@g.us
+GRUPO_ADM_ID=987654321@g.us
+NUMEROS_AUTORIZADOS=5518999999999,5511888888888
+```
+
+5. Inicie o deploy e abra **Logs**. No primeiro início, escaneie o QR Code em **WhatsApp → Aparelhos conectados → Conectar aparelho**.
+
+O Blueprint configura automaticamente:
+
+```text
+Build Command: npm ci
+Start Command: npm start
+AUTH_PATH=/opt/render/project/src/storage/.wwebjs_auth
+DATA_PATH=/opt/render/project/src/storage/data
+```
+
+Use somente uma instância. Duas instâncias não devem compartilhar a mesma sessão do WhatsApp. O QR Code e os arquivos de autenticação são confidenciais.
+
+### Health check
+
+O serviço disponibiliza:
+
+```text
+GET /
+GET /health
+```
+
+A rota `/health` retorna HTTP 200 enquanto o processo está vivo; o JSON informa se o WhatsApp está conectado e se a moderação está ativa. Configure monitores externos para consultar `https://SEU-SERVICO.onrender.com/health`. A resposta não expõe nomes de grupos, números ou IDs.

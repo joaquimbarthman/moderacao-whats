@@ -11,9 +11,11 @@ const ModerationLogger = require('./services/moderationLogger');
 const ModerationService = require('./services/moderationService');
 const { isAdmin, isAuthorizedNumber } = require('./utils/permissions');
 const { handleCommand } = require('./commands');
+const { authDirectory, dataDirectory } = require('./utils/storage');
+const { startHealthServer } = require('./services/healthServer');
 
 const client = new Client({
-  authStrategy: new LocalAuth(),
+  authStrategy: new LocalAuth({ dataPath: authDirectory }),
   puppeteer: { headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] }
 });
 
@@ -25,6 +27,7 @@ let warnings;
 let antiSpam;
 let logger;
 let moderation;
+let whatsappConnected = false;
 const processed = new Map();
 
 function messageId(message) {
@@ -211,9 +214,15 @@ client.on('qr', (qr) => {
 });
 client.on('authenticated', () => console.log('[INFO] Autenticação concluída.'));
 client.on('auth_failure', (error) => console.error('[ERROR] Falha de autenticação:', error));
-client.on('disconnected', (reason) => { enabled = false; console.error('[ERROR] WhatsApp desconectado:', reason); });
+client.on('disconnected', (reason) => { whatsappConnected = false; enabled = false; console.error('[ERROR] WhatsApp desconectado:', reason); });
 client.on('ready', async () => {
-  try { await initializeServices(); await discoverGroups(); }
+  whatsappConnected = true;
+  try {
+    console.log(`[INFO] Dados persistentes: ${dataDirectory}`);
+    console.log(`[INFO] Sessão do WhatsApp: ${authDirectory}`);
+    await initializeServices();
+    await discoverGroups();
+  }
   catch (error) {
     enabled = false;
     console.error('[ERROR] Falha na inicialização:', error.message);
@@ -225,5 +234,9 @@ client.on('message_create', processMessage);
 
 process.on('unhandledRejection', (error) => console.error('[ERROR] Promise rejeitada:', error));
 process.on('uncaughtException', (error) => console.error('[ERROR] Exceção não tratada:', error));
+
+startHealthServer({
+  getStatus: () => ({ ready: whatsappConnected && enabled, connected: whatsappConnected, enabled })
+});
 
 client.initialize().catch((error) => console.error('[ERROR] Não foi possível iniciar o cliente:', error));
