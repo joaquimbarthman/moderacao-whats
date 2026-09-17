@@ -77,7 +77,7 @@ QR_TOKEN=crie-uma-senha-longa-e-aleatoria
 O Blueprint configura automaticamente:
 
 ```text
-Build Command: npm ci && npx puppeteer browsers install chrome
+Build Command: npm ci --no-audit && npm run security:audit
 Start Command: npm start
 AUTH_PATH=/opt/render/project/src/storage/.wwebjs_auth
 DATA_PATH=/opt/render/project/src/storage/data

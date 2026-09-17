@@ -3,7 +3,7 @@ services:
     name: whatsapp-moderador
     runtime: node
     plan: starter
-    buildCommand: npm ci && npx puppeteer browsers install chrome
+    buildCommand: npm ci --no-audit && npm run security:audit
     startCommand: npm start
     healthCheckPath: /health
     autoDeployTrigger: commit
