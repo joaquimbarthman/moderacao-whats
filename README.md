@@ -83,6 +83,8 @@ DATA_PATH=/opt/render/project/src/storage/data
 PUPPETEER_CACHE_DIR=/opt/render/project/src/.cache/puppeteer
 ```
 
+O arquivo `.puppeteerrc.cjs` também fixa esse cache dentro do projeto e o script `postinstall` baixa automaticamente a versão do Chrome exigida pelo Puppeteer. Depois de alterar essa configuração no Render, use **Manual Deploy → Clear build cache & deploy**.
+
 Use somente uma instância. Duas instâncias não devem compartilhar a mesma sessão do WhatsApp. O QR Code e os arquivos de autenticação são confidenciais.
 
 ### Health check
