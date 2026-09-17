@@ -3,7 +3,7 @@ services:
     name: whatsapp-moderador
     runtime: node
     plan: starter
-    buildCommand: npm ci
+    buildCommand: npm ci && npx puppeteer browsers install chrome
     startCommand: npm start
     healthCheckPath: /health
     autoDeployTrigger: commit
@@ -14,6 +14,8 @@ services:
         value: /opt/render/project/src/storage/.wwebjs_auth
       - key: DATA_PATH
         value: /opt/render/project/src/storage/data
+      - key: PUPPETEER_CACHE_DIR
+        value: /opt/render/project/src/.cache/puppeteer
       - key: GRUPO_PRINCIPAL
         sync: false
       - key: GRUPO_ADM

@@ -3,4 +3,5 @@ node_modules/
 .wwebjs_cache/
 .env
 storage/
+.cache/
 npm-debug.log*

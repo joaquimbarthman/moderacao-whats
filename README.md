@@ -76,10 +76,11 @@ NUMEROS_AUTORIZADOS=5518999999999,5511888888888
 O Blueprint configura automaticamente:
 
 ```text
-Build Command: npm ci
+Build Command: npm ci && npx puppeteer browsers install chrome
 Start Command: npm start
 AUTH_PATH=/opt/render/project/src/storage/.wwebjs_auth
 DATA_PATH=/opt/render/project/src/storage/data
+PUPPETEER_CACHE_DIR=/opt/render/project/src/.cache/puppeteer
 ```
 
 Use somente uma instância. Duas instâncias não devem compartilhar a mesma sessão do WhatsApp. O QR Code e os arquivos de autenticação são confidenciais.
